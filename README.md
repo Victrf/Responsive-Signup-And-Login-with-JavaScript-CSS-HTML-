@@ -3,7 +3,7 @@ Responsive Login and Signup Page
 
 # 🔐 Responsive Login & Signup Landing Page with Video Background
 
-A modern, responsive authentication landing page built with HTML, CSS, and Bootstrap 5.3.3. This project features a sleek UI with transparent forms, a background video, animated transitions, and an intuitive flip mechanism between login and signup modes. Help panels are also integrated for enhanced user guidance.
+A modern, responsive authentication landing page built with HTML, CSS,JAVASCRIPT and Bootstrap 5.3.3. This project features a sleek UI with transparent forms, a background video, animated transitions, and an intuitive flip mechanism between login and signup modes. Help panels are also integrated for enhanced user guidance.
 
 ---
 
