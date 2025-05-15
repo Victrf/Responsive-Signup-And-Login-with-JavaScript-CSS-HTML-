@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="css/form.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/script.js"></script>
+    <style>
+        /* Background Animation */
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #ff416c, #4406d6, #069e5a, #5005e8);
+            background-size: 400% 400%;
+            animation: gradientMove 10s infinite alternate ease-in-out;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Floating & Rotating Boxes */
+        .floating-box {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            animation: floatAnimation linear infinite alternate, rotateAnimation linear infinite;
+        }
+
+        @keyframes floatAnimation {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translateY(80px) translateX(50px);
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes rotateAnimation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Form Container */
+        .form-container {
+            width: 350px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        /* Flip Card */
+        .flip-card {
+            width: 100%;
+            height: 420px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+
+        .flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* Front & Back Forms */
+        .form-box {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: 0.5s ease-in-out;
+        }
+
+        .form-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .form-box input {
+            margin-bottom: 15px;
+            border-radius: 25px;
+        }
+
+        .form-box .btn {
+            border-radius: 25px;
+        }
+
+        /* Glowing Effect for Form */
+        .form-box {
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
+            transition: box-shadow 0.5s ease-in-out;
+        }
+
+        .form-box:hover {
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Back Side */
+        .back {
+            transform: rotateY(180deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Flip Button */
+        .toggle-btn {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.3);
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Social Signup Section */
+        .social-signup {
+            text-align: center;
+            margin-top: 15px;
+            color: white;
+        }
+
+        .social-signup p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(1, 32, 142, 0.3);
+            transition: 0.3s ease-in-out;
+        }
+
+        .google {
+            background: #1f05c5;
+        }
+
+        .facebook {
+            background: #1877f2;
+        }
+
+        .firefox {
+            background: #ff9400;
+        }
+
+        .social-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Forgot Password */
+        .forgot-password {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .forgot-password a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+
+
+        /* Help Button Container */
+        .help-container {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            z-index: 10;
+        }
+
+        /* Glowing & Bouncing Help Button */
+        .help-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+            animation: glowAnimation 1.5s infinite alternate, bounceAnimation 2s infinite;
+        }
+
+        /* Glowing Effect */
+        @keyframes glowAnimation {
+            0% {
+                box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+            }
+
+            100% {
+                box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        /* Bouncing Animation */
+        @keyframes bounceAnimation {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Expanded Help Menu */
+        .help-menu {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            background: rgba(3, 198, 68, 0.7);
+            width: 200px;
+            height: 180px;
+            border-top-left-radius: 90px;
+            border-bottom-left-radius: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s ease-in-out;
+            overflow: hidden;
+        }
+
+        .help-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: white;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .help-menu ul li {
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .help-menu ul li:hover {
+            color: #0817b4;
+        }
+
+        /* When Active */
+        .help-container.active .help-menu {
+            transform: translateY(-50%) scale(1);
+        }
+
+        .help-list li {
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .help-list li:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Pop-up Box */
+        .popup-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            display: none;
+            z-index: 1000;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            /* Transparent effect */
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 -2px 10px rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .footer-content {
+            text-align: left;
+        }
+
+        .footer-content a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .footer-content a:hover {
+            color: #ff5733;
+        }
+
+        /* Social Media Icons */
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .icon {
+            font-size: 20px;
+            color: white;
+            transition: transform 0.3s ease-in-out, color 0.3s;
+        }
+
+        .icon:hover {
+            transform: scale(1.2);
+        }
+
+        /* Custom Colors for Each Icon */
+        .whatsapp:hover {
+            color: #25D366;
+        }
+
+        .instagram:hover {
+            color: #E4405F;
+        }
+
+        .linkedin:hover {
+            color: #0077B5;
+        }
+
+        .udemy:hover {
+            color: #EC5252;
+        }
+
+
+        /* Animated Text */
+        .animated-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffcc00;
+            display: inline-block;
+            animation: bounce 1.5s infinite alternate ease-in-out,
+                spinRotate 6s infinite linear;
+            /* Slowed down */
+        }
+
+        /* Bouncing Animation */
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Slower Spinning & Rotating Animation */
+        @keyframes spinRotate {
+            0% {
+                transform: rotateY(0deg) rotateZ(0deg);
+            }
+
+            50% {
+                transform: rotateY(180deg) rotateZ(10deg);
+            }
+
+            100% {
+                transform: rotateY(360deg) rotateZ(0deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating Boxes -->
+    <script>
+        function createFloatingBoxes(num) {
+            for (let i = 0; i < num; i++) {
+                let box = document.createElement("div");
+                box.className = "floating-box";
+                document.body.appendChild(box);
+
+                let size = Math.random() * 30 + 20; // Bigger size (20px to 50px)
+                box.style.width = size + "px";
+                box.style.height = size + "px";
+
+                let posX = Math.random() * window.innerWidth;
+                let posY = Math.random() * window.innerHeight;
+                box.style.left = posX + "px";
+                box.style.top = posY + "px";
+
+                let durationFloat = Math.random() * 5 + 3; // Random float animation duration (3s to 8s)
+                let durationRotate = Math.random() * 4 + 2; // Random rotation speed (2s to 6s)
+
+                box.style.animation = `floatAnimation ${durationFloat}s linear infinite alternate`;
+
+                // Make some boxes rotate
+                if (Math.random() > 0.5) {
+                    box.style.animation += `, rotateAnimation ${durationRotate}s linear infinite`;
+                }
+            }
+        }
+        createFloatingBoxes(20); // Number of floating & spinning boxes
+    </script>
+
+    <div class="background">
+        <video class="bg-video" autoplay loop muted>
+            <source src="M&S Men's Style The Art of Tailoring - TV AD 2016 - 720.mp4" type="video/mp4">
+        </video>
+        <div class="gradient-layer"></div>
+        <div class="boxes-layer"></div>
+    </div>
+
+    <div class="form-container">
+        <button class="toggle-btn">Switch to Login</button>
+
+        <div class="flip-card">
+            <!-- Signup Form -->
+            <div class="form-box front">
+                <h2>Sign Up</h2>
+                <form id="signup-form">
+                    <input type="text" class="form-control" placeholder="Full Name" required>
+                    <input type="email" class="form-control" placeholder="Email" required>
+                    <input type="password" class="form-control" id="password" placeholder="Password" required>
+                    <input type="password" class="form-control" id="confirm-password" placeholder="Re-Enter Password"
+                        required>
+                    <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                </form>
+
+                <!-- Social Signup Options -->
+                <div class="social-signup">
+                    <p>Or sign up with:</p>
+                    <div class="social-icons">
+                        <button class="social-btn google"><i class="fab fa-google"></i></button>
+                        <button class="social-btn facebook"><i class="fab fa-facebook-f"></i></button>
+                        <button class="social-btn firefox"><i class="fab fa-firefox"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <div class="form-box back">
+                <h2>Login</h2>
+                <form id="login-form">
+                    <input type="email" class="form-control" placeholder="Email" required>
+                    <input type="password" class="form-control" placeholder="Password" required>
+                    <button type="submit" class="btn btn-success w-100">Login</button>
+                </form>
+
+                <!-- Forgot Password -->
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Help Button -->
+    <div class="help-container">
+        <button class="help-btn">Help</button>
+        <div class="help-menu">
+            <ul class="help-list"> <!-- ADDED CLASS HERE -->
+                <li>🔹 How to Sign Up</li>
+                <li>🔹 How We Use Your Data</li>
+                <li>🔹 Policies</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Pop-up Box -->
+    <div class="popup-box"></div>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 E-Codex X. All rights reserved.</p>
+            <p>
+                <a href="https://yourportfolio.com" target="_blank">Visit My Portfolio</a>
+            </p>
+        </div>
+
+        <!-- Social Media Links -->
+        <div class="social-icons">
+            <a href="https://wa.me/yourwhatsapp" target="_blank" class="icon whatsapp"><i
+                    class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/yourinstagram" target="_blank" class="icon instagram"><i
+                    class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/yourlinkedin" target="_blank" class="icon linkedin"><i
+                    class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.udemy.com/user/yourudemy" target="_blank" class="icon udemy"><i
+                    class="fas fa-graduation-cap"></i></a>
+        </div>
+
+        <div class="animated-text">E.KAY LOKKO</div>
+    </footer>
+
+
+
+    <script>
+        $(document).ready(function () {
+            $(".toggle-btn").click(function () {
+                $(".flip-card").toggleClass("flipped");
+                $(".toggle-btn").text($(".flip-card").hasClass("flipped") ? "Switch to Sign Up" : "Switch to Login");
+            });
+
+            // Password Matching Validation
+            $("#signup-form").submit(function (event) {
+                var password = $("#password").val();
+                var confirmPassword = $("#confirm-password").val();
+
+                if (password !== confirmPassword) {
+                    alert("Passwords do not match!");
+                    event.preventDefault();
+                }
+            });
+
+            // Prevent Login Submission (for demo)
+            $("#login-form").submit(function (event) {
+                alert("Login successful (Demo only)");
+                event.preventDefault();
+            });
+        });
+
+
+
+
+
+        $(document).ready(function () {
+            $(".help-btn").click(function (event) {
+                event.stopPropagation();
+                $(".help-container").toggleClass("active");
+            });
+
+            // Close the help menu and popup when clicking outside
+            $(document).click(function (event) {
+                if (!$(event.target).closest(".help-container").length) {
+                    $(".help-container").removeClass("active");
+                    $(".popup-box").fadeOut(200);
+                }
+            });
+
+            // Custom messages for each menu item
+            const messages = {
+                "How to Sign Up": "To sign up, click the 'Sign Up' button and enter your details.",
+                "How We Use Your Data": "We use your data securely to improve our services and protect your privacy.",
+                "Policies": "Read our policies to understand your rights and responsibilities."
+            };
+
+            // Handle click on Help Menu Items
+            $(".help-menu ul li").click(function (event) {
+                event.stopPropagation();
+
+                // Remove emojis and extra spaces
+                let text = $(this).text().replace(/🔹/g, "").trim();
+                let message = messages[text] || "No information available.";
+
+                // Show pop-up with the correct message
+                let popup = $(".popup-box");
+                popup.text(message).fadeIn(300);
+
+                // Hide pop-up after 3 seconds
+                setTimeout(function () {
+                    popup.fadeOut(300);
+                }, 3000);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+/* General Styles */
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Background Container */
+.background {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  /* background: linear-gradient(45deg, red, blue, green, yellow); */
+  background-size: 300% 300%;
+  /* animation: gradientMove 10s infinite alternate; */
+  transition: background 2s ease-in-out;
+}
+
+/* Gradient Animation */
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Video Styling */
+.bg-video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+/* Gradient Overlay */
+/* .gradient-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 0, 0, 0.3),
+    rgba(0, 0, 255, 0.3)
+  );
+  mix-blend-mode: overlay;
+  transition: opacity 2s ease-in-out;
+} */
+
+/* Boxes Animation */
+.boxes-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url("your-boxes-pattern.png");
+  opacity: 0.5;
+  transition: opacity 2s ease-in-out;
+}
